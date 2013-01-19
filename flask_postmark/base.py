@@ -43,7 +43,7 @@ class PMTestMail(postmark.PMMail):
         kwargs["test"] = True
         sent, msg = super(PMTestMail, self).send(*args, **kwargs)
         if sent:
-            if not g.hasattr('outbox'):
+            if not hasattr(g, 'outbox'):
                 g.outbox = []
             g.outbox.append(msg)
         return sent, msg
