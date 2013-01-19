@@ -8,7 +8,8 @@ logger = logging.getLogger(__name__)
 
 class Postmark(object):
     """
-    A simple postmark loader that prefills mail objects with things like the api key.
+    A simple postmark loader that prefills
+    mail objects with things like the api key.
     """
 
     def __init__(self, app=None):
@@ -47,7 +48,5 @@ class PMTestMail(postmark.PMMail):
         kwargs["test"] = True
         sent, msg = super(PMTestMail, self).send(*args, **kwargs)
         if sent:
-            if not hasattr(g, 'outbox'):
-                g.outbox = []
             g.outbox.append(msg)
         return sent, msg
