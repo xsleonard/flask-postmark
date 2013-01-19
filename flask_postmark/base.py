@@ -19,10 +19,6 @@ class Postmark(object):
 
     def init_app(self, app):
         self.app = app
-        def create_outbox():
-            g.outbox = []
-        self.app.before_request(create_outbox)
-
         if "POSTMARK_API_KEY" not in self.app.config:
             warnings.warn("POSTMARK_API_KEY not set in the configuration!")
 
@@ -48,5 +44,7 @@ class PMTestMail(postmark.PMMail):
         kwargs["test"] = True
         sent, msg = super(PMTestMail, self).send(*args, **kwargs)
         if sent:
+            if not hasattr(g, 'outbox'):
+                g.outbox = []
             g.outbox.append(msg)
         return sent, msg
